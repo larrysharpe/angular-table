@@ -1,0 +1,35 @@
+<div>
+    {{size}}
+    <table ng-hide="!filtered.length" cellspacing="0" cellpadding="0">
+        <thead>
+        <tr>
+            <th>{{offset() + 1}} - {{limit()}}</th>
+
+            <th ng-repeat="header in headers" ng-class="header.class">
+                <a href="" ng-click="orderList(header.name)">{{header.label}}</a>
+
+                <!-- TODO:change ng-class object to a function -->
+                <i class="fa" ng-class="{'fa-sort-asc': isSorted(header.name, false),'fa-sort-desc': isSorted(header.name, true)}"></i>
+            </th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="person in filtered = (people | orderBy: orderBy : reverse | filter: search ) | limitTo: limit() | offset: offset() ">
+            <td class="text-center">{{offset() + ($index + 1)}}</td>
+            <td ng-repeat="header in headers" ng-class="header.class">
+                {{person[header.name]}}
+            </td>
+            <td> <a href="" ng-click="details($index)">View</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="text-center" ng-hide="!filtered.length">
+        <a href="" class="page-link" ng-click="prevPage()" ng-disabled="!canPrevPage()"> <<< </a>
+        <a href="" class="page-link" ng-click="setPage(page)" ng-repeat="page in pageNumbers" ng-class="{active: isCurrentPage(page)}" ng-disabled="isCurrentPage(page)"> <span>{{page}}</span> </a>
+        <a href="" class="page-link" ng-click="nextPage()" ng-disabled="!canNextPage()"> >>> </a>
+    </div>
+
+    <h2 ng-show="!filtered.length">No one matches that criteria. <a href="" ng-click="reset()">Reset</a></h2>
+</div>

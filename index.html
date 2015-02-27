@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>The Club</title>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='css/styles.css' rel='stylesheet' type='text/css'>
+</head>
+<body ng-app="contactAppMod"  >
+
+    <div ng-controller="appCtrl">
+        <div class="content" ng-show="!selected">
+
+            <ul class="list-float-responsive">
+                <li>
+                    <h2>Contact List Manager</h2>
+                </li>
+                <li>
+                    Showing {{filtered.length}} people
+
+                    <span ng-hide="filtered.length < perPage"> on {{totalPages()}} pages at
+                    <select ng-model="perPage" ng-options=" p as p for p in perPageOptions" ng-change="setPageNumbers()"></select> per page</span>
+
+                    <span ng-show="totalPeople !== filtered.length">, {{totalPeople}} total.</span>
+                </li>
+                <li class="right">
+                    <select ng-model="searchStates" ng-options="s as s for s in states">
+                        <option value="">Select State</option>
+                    </select>
+                </li>
+                <li class="searchBox right">
+                    <input type="text" ng-model="searchText" placeholder="Search Clients">
+                </li>
+                <li class="right">
+                        {{orderBy}} {{reverse | ascDesc}}
+                </li>
+            </ul>
+
+
+            <contacts-table></contacts-table>
+
+        </div>
+        <div class="content" ng-show="selected">
+            <h2>Contact List Manager</h2>
+
+            <div class="pad width-s">
+                <h3>{{selected.first_name}} {{selected.last_name}}</h3>
+                <div class="block">
+                    <div class="left">Joined:</div> <div class="right"> {{selected.join_date}} </div>
+                </div>
+                <div class="block">
+                    <div class="left">Email:</div>  <div class="right">{{selected.email}}</div>
+                </div>
+                <div class="block">
+                    <div class="left">Phone:</div>  <div class="right">{{selected.phone}}</div>
+                </div>
+                <p>
+                    <b>Address:</b><br>
+                    {{selected.address}}<br>
+                    {{selected.city}}
+                    {{selected.state}},
+                    {{selected.zip}}
+                </p>
+                <p>
+                    <a href="" ng-click="selected = null;">Back to the List</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/components/filters/ascDesc.filter.js"></script>
+    <script src="js/components/filters/offset.filter.js"></script>
+    <script src="js/app/config.js"></script>
+    <script src="js/app/contactsTable.directive.js"></script>
+    <script src="js/lib/angular.min.js" ></script>
+    <script src="js/app/people.js"></script>
+    <script src="js/app/homeCtrl.js"></script>
+    <script src="js/app/app.js"></script>
+</body>
+</html>
